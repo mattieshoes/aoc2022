@@ -11,19 +11,19 @@ lines = [item.rstrip() for item in lines]
 
 my_sum = 0
 for line in lines:
-    matching = set()
-    n = len(line)//2
-    for i in line[:n]:
-        if i in line[n:]:
-            matching.add(i)
-    for item in matching:
+    a = set(line[:len(line)//2])
+    b = set(line[len(line)//2:])
+    overlap = a.intersection(b)
+    for item in overlap:
         my_sum += priority(item)
 print(f"Sum: {my_sum}")
 
 my_sum = 0
 for n in range(0, len(lines), 3):
-    for i in lines[n]:
-        if i in lines[n+1] and i in lines[n+2]:
-           my_sum += priority(i)
-           break
+    a = set(lines[n])
+    b = set(lines[n+1])
+    c = set(lines[n+2])
+    overlap = a.intersection(b).intersection(c)
+    for item in overlap:
+        my_sum += priority(item)
 print(f"Sum: {my_sum}")
