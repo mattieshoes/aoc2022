@@ -12,8 +12,9 @@ lines = [item.rstrip() for item in lines]
 my_sum = 0
 for line in lines:
     matching = set()
-    for i in line[:len(line)//2]:
-        if i in line[len(line)//2:]:
+    n = len(line)//2
+    for i in line[:n]:
+        if i in line[n:]:
             matching.add(i)
     for item in matching:
         my_sum += priority(item)
