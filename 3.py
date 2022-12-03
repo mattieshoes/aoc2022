@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 
-import re
-
 def priority(n):
     if(n.isupper()):
         return ord(n)-ord('A') + 27
@@ -15,8 +13,7 @@ my_sum = 0
 for line in lines:
     matching = {}
     for i in line[:len(line)//2]:
-        m = re.search(i, line[len(line)//2:])
-        if m is not None:
+        if i in line[len(line)//2:]:
             matching[i] = priority(i)
     for key in matching:
         my_sum += matching[key]
@@ -26,8 +23,7 @@ my_sum = 0
 for n in range(0, len(lines), 3):
     matching = {}
     for i in lines[n]:
-        if re.search(i, lines[n+1]) is not None and \
-           re.search(i, lines[n+2]) is not None:
+        if i in lines[n+1] and i in lines[n+2]:
            my_sum += priority(i)
            break
 print(f"Sum: {my_sum}")
