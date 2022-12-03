@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
 with open('1.txt') as f:
-    vals = sorted([sum([int(n) for n in line.split('\n')]) for line in f.read().split('\n\n')], reverse=True)
+    vals = sorted(sum((int(n) for n in m.split('\n'))) for m in f.read().split('\n\n'))
 
-print(f"{vals[0]}\n{sum(vals[:3])}")
+print(f"{vals[-1]}\n{sum(vals[-3:])}")
