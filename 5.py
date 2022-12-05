@@ -26,11 +26,7 @@ for line in rotated:
     name = line[0]
     if name != ' ':
         ordering += name
-        stacks[name] = []
-        for c in line[1:]:
-            if c == ' ':
-                break
-            stacks[line[0]] += c
+        stacks[name] = re.findall(r"(\w)", line[1:])
 
 # make a deep copy of the stacks so part 1 and 2 can be independent
 stacks2 = copy.deepcopy(stacks)
