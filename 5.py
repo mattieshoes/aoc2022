@@ -35,7 +35,7 @@ for line in lines:
     t = vals[2]
 
     # for part 1, iteratively move one item at a time
-    for i in range(0, count):
+    for i in range(count):
         item = stacks[f].pop()
         stacks[t].append(item)
 
