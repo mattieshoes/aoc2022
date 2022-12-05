@@ -2,7 +2,6 @@
 
 import re, copy
 
-# list elves split by double-newlines
 with open('5.txt') as f:
     layout, lines = f.read().split('\n\n')
     layout = layout.split('\n')
