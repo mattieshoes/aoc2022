@@ -23,9 +23,8 @@ ordering = []
 # rotate the layout clockwise so we can parse horizontally
 rotated = rotate(layout)
 for line in rotated:
-    name = line[0]
-    if name != ' ':
-        ordering += name
+    if line[0] != ' ':
+        ordering += line[0]
         stacks[name] = re.findall(r"(\w)", line[1:])
 
 # make a deep copy of the stacks so part 1 and 2 can be independent
