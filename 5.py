@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import re, copy
+from collections import OrderedDict
 
 # rotates a rectangular block of text
 def rotate(lines, clockwise=True):
@@ -17,14 +18,12 @@ with open('5.txt') as f:
 layout = layout.split('\n')
 lines = lines.split('\n')
 
-stacks = {}
-ordering = []
+stacks = OrderedDict()
 
 # rotate the layout clockwise so we can parse horizontally
 rotated = rotate(layout)
 for line in rotated:
     if line[0] != ' ':
-        ordering += line[0]
         stacks[line[0]] = re.findall(r"\w", line[1:])
 
 # make a deep copy of the stacks so part 1 and 2 can be independent
@@ -44,10 +43,10 @@ for line in lines:
     stacks2[t] += stacks2[f][-count:]
     stacks2[f] = stacks2[f][:-count]
 
-for i in ordering:
+for i in stacks.keys():
     print(stacks[i][-1], end='')
 print()
 
-for i in ordering:
+for i in stacks2.keys():
     print(stacks2[i][-1], end='')
 print()
