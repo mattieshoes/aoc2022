@@ -25,7 +25,7 @@ rotated = rotate(layout)
 for line in rotated:
     if line[0] != ' ':
         ordering += line[0]
-        stacks[name] = re.findall(r"(\w)", line[1:])
+        stacks[line[0]] = re.findall(r"(\w)", line[1:])
 
 # make a deep copy of the stacks so part 1 and 2 can be independent
 stacks2 = copy.deepcopy(stacks)
