@@ -5,7 +5,7 @@ from collections import OrderedDict
 from copy import deepcopy
 
 with open('5.txt') as f:
-    layout, lines = [n.split('\n') for n in f.read().split('\n\n')]
+    layout, lines = [n.split('\n') for n in f.read().rstrip('\n').split('\n\n')]
 
 stacks = re.findall(r"[^ ]", layout[-1])
 stacks = OrderedDict(zip(stacks, ['' for i in range(len(stacks))]))

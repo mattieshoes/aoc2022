@@ -6,7 +6,7 @@
 
 with open('1.txt') as f:
     #split into elves based on double-newline
-    elves = f.read().split('\n\n')
+    elves = f.read().rstrip('\n').split('\n\n')
 
 # Split each elf into items based on newline, so we have a list of lists
 elves = [elf.split('\n') for elf in elves]
