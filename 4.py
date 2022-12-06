@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 with open('4.txt') as f:
-    groups = [g.split(',') for g in f.read().split('\n')]
+    groups = [g.split(',') for g in f.read().rstrip('\n').split('\n')]
 
 ans1 = 0
 ans2 = 0
