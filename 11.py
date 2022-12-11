@@ -31,7 +31,7 @@ def round(part=1):
                 items[i][j] = items[i][j] % magic_number
 
 
-with open('11.ex') as f:
+with open('11.txt') as f:
     data = recursive_split(f.read().rstrip('\n'), '\n\n', '\n')
 items = [[] for i in range(len(data))]
 op_add = [0 for i in range(len(data))]
