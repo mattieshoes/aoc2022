@@ -19,8 +19,8 @@ def drop_sand():
 
     loc = sand_source
     while True:
-        maybe = (loc[0] + 1, loc[1])
         # check below
+        maybe = (loc[0] + 1, loc[1])
         if maybe not in rock:
             loc = maybe
             continue
