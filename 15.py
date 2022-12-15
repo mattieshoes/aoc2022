@@ -25,6 +25,9 @@ for line in data:
     n = re.findall(r'[0-9\-]+', line)
     sensors[(int(n[0]), int(n[1]))] = (int(n[2]), int(n[3]))
 
+for k in sensors.keys():
+    sensor_range[k] = distance(k, sensors[k])
+
 y_val = 2000000
 y_val = 10
 nots = {}
@@ -34,29 +37,31 @@ for key in sensors.keys():
     leftover_dist = dist - d2y
     for x_val in range(key[0] - leftover_dist, key[0] + leftover_dist):
         nots[(x_val, y_val)] = 1
-
 ans1 = len(nots) 
 print(f"Part 1: {ans1}")
+nots.clear()
 
+potential = {}
+for k1 in sensors.keys():
+    for k2 in sensors.keys():
+        if k1 == k2:
+            continue
+        a = k1[0], k1[1] - sensor_range[k1] - 1
+        b = k2[0], k2[1] + sensor_range[k2] + 1
+        offset = (b[0] - a[0], b[1]-a[1])
+        diff = offset[1] - offset[0]
+        if diff == 2:
+            potential[k1] = 1
 
-for k in sensors.keys():
-    sensor_range[k] = distance(k, sensors[k])
-
-
-# build sequence of edges 
+# build perimeter side with potential solution
 seq = []
-for k in sensors.keys():
+for k in potential.keys():
     r = sensor_range[k]
-    p0 = (k[0] + r + 1, k[1])
-    p1 = (k[0], k[1] - r - 1)
     p2 = (k[0] - r - 1, k[1])
     p3 = (k[0], k[1] + r + 1)
-    seq.append([p0, p1])
-    seq.append([p1, p2])
     seq.append([p2, p3])
-    seq.append([p3, p0])
 
-# test one past edge against all other ranges
+# test against all other ranges
 found = False
 for s in seq:
     xoff = 1
@@ -73,5 +78,3 @@ for s in seq:
             break
     if found:
         break
-
-
