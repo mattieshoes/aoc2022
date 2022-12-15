@@ -43,10 +43,11 @@ for k in sensors.keys():
     sensor_range[k] = distance(k, sensors[k])
 
 
+# build sequence of edges 
 seq = []
 for k in sensors.keys():
     r = sensor_range[k]
-    p0 = (k[0] + r, k[1] + 1)
+    p0 = (k[0] + r + 1, k[1])
     p1 = (k[0], k[1] - r - 1)
     p2 = (k[0] - r - 1, k[1])
     p3 = (k[0], k[1] + r + 1)
@@ -55,6 +56,7 @@ for k in sensors.keys():
     seq.append([p2, p3])
     seq.append([p3, p0])
 
+# test one past edge against all other ranges
 found = False
 for s in seq:
     xoff = 1
