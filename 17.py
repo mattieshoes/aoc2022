@@ -5,14 +5,16 @@ from copy import deepcopy
 # Finds max height of the stack
 # Also clears out old bits far from the top
 def maxHeight():
+    global prev_max_height
     if len(board) == 0:
         return -1
-    max_height = 0
+    max_height = prev_max_height
     for k in list(board.keys()):
         if k[0] > max_height:
             max_height = k[0]
-        if k[0] + 50 < max_height:
+        if k[0] + 40 < max_height:
             del board[k]
+    prev_max_height = max_height
     return max_height
 
 # was used for debugging step 1
@@ -83,11 +85,20 @@ board = {}
 tick = 0
 cycle = {}
 dropped = 0
+prev_max_height = 0
 
 # first manually does part 1
 while dropped < 2022:
     drop(shapes[dropped % len(shapes)])
     dropped += 1
+    k = (tick % len(data), dropped % len(shapes))
+    mh = maxHeight()
+    if k in cycle:
+        cycle[k].append( (dropped, mh) )
+    else:
+        cycle[k] = [(dropped, mh)]
+    print(f"Dropped: {dropped}   Height: {mh + 1} K: {k}")
+
 ans1 = maxHeight() + 1
 
 # Then does part 2 looking for cycles
@@ -106,27 +117,27 @@ while dropped < 1000000000000:
     if k in cycle and len(cycle[k]) >= 3 and bonus_cycles == 0 and \
             cycle[k][-1][0] - cycle[k][-2][0] == cycle[k][-2][0] - cycle[k][-3][0] and \
             cycle[k][-1][1] - cycle[k][-2][1] == cycle[k][-2][1] - cycle[k][-3][1]:
-
         drop_cycle_length = cycle[k][-1][0] - cycle[k][-2][0]
         height_cycle_length = cycle[k][-1][1] - cycle[k][-2][1]
         bonus_cycles = (1000000000000 - dropped) // drop_cycle_length
         bonus_height = height_cycle_length * bonus_cycles
         bonus_dropped = bonus_cycles * drop_cycle_length
-
         dropped += bonus_dropped
+        print(f"Drop cycle length: {drop_cycle_length}")
     else:    
         drop(shapes[dropped % len(shapes)])
         dropped += 1
     
     # add to cycle
     if bonus_height == 0:
+        mh = maxHeight()
         k = (tick % len(data), dropped % len(shapes))
         if k in cycle:
-            cycle[k].append( (dropped, maxHeight()) )
+            cycle[k].append( (dropped, mh) )
         else:
-            cycle[k] = [(dropped, maxHeight())]
+            cycle[k] = [(dropped, mh)]
     
-    print(f"Dropped: {dropped}   Height: {maxHeight() + bonus_height} K: {k}")
+    print(f"Dropped: {dropped}   Height: {maxHeight() + bonus_height + 1} K: {k}")
 
 ans2 = maxHeight() + bonus_height + 1
 print(f"Part 1: {ans1}")
