@@ -12,7 +12,7 @@ def maxHeight():
     for k in list(board.keys()):
         if k[0] > max_height:
             max_height = k[0]
-        if k[0] + 40 < max_height:
+        if k[0] + 100 < max_height:
             del board[k]
     prev_max_height = max_height
     return max_height
@@ -66,7 +66,7 @@ def drop(shape):
 ans1 = 0
 ans2 = 0
 
-with open('17.txt') as f:
+with open('test.txt') as f:
     data = f.read().rstrip('\n')
 
 shapes = []
