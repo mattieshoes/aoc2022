@@ -1,16 +1,16 @@
 #!/usr/bin/python3
 
 import re, functools
-#@functools.lru_cache(maxsize=None)
-from copy import deepcopy
 
 ans1 = 0
 ans2 = 1
 
+# recursive search function
 @functools.lru_cache(maxsize=None)
 def search(ore, clay, obsidian, geode, r_0, r_1, r_2, r_3, time_left):
     global global_best
     resources = [ore, clay, obsidian, geode]
+    nr = [ore, clay, obsidian, geode]
     robots = [r_0, r_1, r_2, r_3]
 
     # bail when time runs out
@@ -20,11 +20,10 @@ def search(ore, clay, obsidian, geode, r_0, r_1, r_2, r_3, time_left):
             print(f"New Global Best: {global_best}")
         return resources[3]
 
-
     best = 0
     score = 0
 
-    # calculate best-case scenario for early exit
+    # calculate best-case scenario for early exit if we can't possibly catch up
     s = geode
     ss = r_3
     for t in range(time_left, -1, -1):
@@ -32,17 +31,17 @@ def search(ore, clay, obsidian, geode, r_0, r_1, r_2, r_3, time_left):
         ss += 1
     if s < global_best:
         return 0
-    
 
-    # copy resources, add what we make this round
-    nr = deepcopy(resources)
+    # add what we make this round
     for i in range(4):
         nr[i] += robots[i]
 
     # build robot?
     for idx, r in enumerate(robot_cost):
+        # don't build more resource-gathering robots than we can use
         if robots[idx] >= max_cost[idx]:
             continue
+        # verify resources are available using round-start numbers
         can_build = True
         for i in range(3):
             if resources[i] < r[i]:
@@ -82,6 +81,7 @@ robot_cost = []
 max_cost = [0, 0, 0, 0]
 global_best = 0
 
+# iterate through inputs
 for index, line in enumerate(data):
     robot_cost = []
     blueprint_number = 0
@@ -93,16 +93,19 @@ for index, line in enumerate(data):
     robot_cost.append([int(res[3]), int(res[4]), 0, 0])
     robot_cost.append([int(res[5]), 0, int(res[6]), 0])
 
+    # calculate max resource costs for building a robot
     for r in robot_cost:
         for i in range(0,4):
             if r[i] > max_cost[i]:
                 max_cost[i] = r[i]
     max_cost[3] = 999999
+
     search.cache_clear()
     score = search(0, 0, 0, 0, 1, 0, 0, 0, 24)
     print(f"Part 1 blueprint {blueprint_number}, Score: {score}")
     ans1 += blueprint_number * score
 
+    # only do part 2 for the first 3 inputs
     if index < 3:
         search.cache_clear()
         score = search(0, 0, 0, 0, 1, 0, 0, 0, 32)
