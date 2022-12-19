@@ -35,7 +35,6 @@ def search(ore, clay, obsidian, geode, r_0, r_1, r_2, r_3, time_left):
     # add what we make this round
     for i in range(4):
         nr[i] += robots[i]
-
     # build robot?
     for idx, r in enumerate(robot_cost):
         # don't build more resource-gathering robots than we can use
@@ -50,27 +49,21 @@ def search(ore, clay, obsidian, geode, r_0, r_1, r_2, r_3, time_left):
             # subtract cost of robot
             for i in range(3):
                 nr[i] -= r[i]
-            
             # add robot
             robots[idx] += 1
-            
             # recurse
             score = search(nr[0], nr[1], nr[2], nr[3], robots[0], robots[1], robots[2], robots[3], time_left - 1)
             if score > best:
                 best = score
-            
             # subtract robot
             robots[idx] -= 1
-            
             # add cost of robot subtracted
             for i in range(3):
                 nr[i] += r[i]
-    
     # also try not-building robot
     score = search(nr[0], nr[1], nr[2], nr[3], robots[0], robots[1], robots[2], robots[3], time_left - 1)
     if score > best:
         best = score
-
     return best
 
 with open('19.txt') as f:
