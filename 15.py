@@ -29,7 +29,7 @@ for k in sensors.keys():
     sensor_range[k] = distance(k, sensors[k])
 
 y_val = 2000000
-y_val = 10
+#y_val = 10
 nots = {}
 for key in sensors.keys():
     dist = distance(key, sensors[key])
